@@ -1,5 +1,7 @@
 from setuptools import find_packages, setup
 
+import jcs_mediagraphic
+
 setup(
     name='jcs_mediagraphic',
     packages=find_packages(include=['jcs_mediagraphic']),
