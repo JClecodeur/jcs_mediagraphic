@@ -1,5 +1,7 @@
 from PIL import Image, ImageChops
 from fpdf import FPDF
+from jcs_mediagraphic.windows import is_windows
+from datetime import datetime
 
 
 def thousands_separators(number: int or str or float, separator: str=" ") -> str:
@@ -84,6 +86,11 @@ class PDF(FPDF):
             super().set_text_color(0, 0, 0)  # Black text
 
 
+    
+
+    def set_current_date(self):
+        super().set_creation_date(datetime.now())
+
 
 
 
@@ -116,6 +123,8 @@ class PDF(FPDF):
         
         """
         try:
+            from PIL import Image
+            
             r = (100+resizing_percentage)/100
             with Image.open(image) as im:
                 wImage, hImage = (im.size)
@@ -127,3 +136,19 @@ class PDF(FPDF):
         except Exception as e:
             print(e)
             return
+        
+
+
+    def import_MG_font(self):
+        if is_windows():
+            super().add_font(family="Raleway", style='B', fname="./extra/font/Raleway-Bold.ttf", uni=True)
+            super().set_font("Raleway", "B")
+            super().add_font(family="Raleway", style='', fname="./extra/font/Raleway-Regular.ttf", uni=True)
+            super().set_font("Raleway")
+            super().add_font(family="RalewayB", style='B', fname="./extra/font/Raleway-ExtraBold.ttf", uni=True)
+            super().set_font("RalewayB", "B")
+        else:
+            super().add_font(family="Raleway", style='B', fname="./extra/font/Raleway-Bold.ttf")
+            super().set_font("Raleway", "B")
+            super().add_font(family="Raleway", style='', fname="./extra/font/Raleway-Regular.ttf")
+            super().set_font("Raleway")
